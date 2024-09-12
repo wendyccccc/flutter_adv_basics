@@ -5,7 +5,9 @@ import 'package:flutter/widgets.dart';
 import 'package:adv_basics/answer_button.dart';
 
 class QuestionsScreen extends StatefulWidget {
-  const QuestionsScreen({super.key});
+  const QuestionsScreen({super.key, required this.onSelectAnswer});
+
+  final void Function(String answer) onSelectAnswer;
 
   @override
   State<QuestionsScreen> createState() {
@@ -16,7 +18,8 @@ class QuestionsScreen extends StatefulWidget {
 class _QuestionsScreenState extends State<QuestionsScreen> {
   var currentQuestionIndex = 0;
 
-  void answerQuestion() {
+  void answerQuestion(String selectedAnswer) {
+    widget.onSelectAnswer(selectedAnswer); // 傳入點擊的按鈕
     setState(() {
       currentQuestionIndex++;
     });
@@ -27,7 +30,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
     final currentQuestion = questions[currentQuestionIndex];
 
     return SizedBox(
-      width: double.infinity, // 越寬越好
+      width: double.infinity,
       child: Container(
         margin: const EdgeInsets.all(40),
         child: Column(
@@ -44,8 +47,13 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 30),
-            ...currentQuestion.getShuffledAnswers().map((item) {
-              return AnswerButton(answerText: item, onTap: () {});
+            ...currentQuestion.getShuffledAnswers().map((answer) {
+              return AnswerButton(
+                answerText: answer,
+                onTap: () {
+                  answerQuestion(answer);
+                },
+              );
             }),
           ],
         ),
