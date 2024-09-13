@@ -19,7 +19,7 @@ class StartScreen extends StatelessWidget {
         ),
         const SizedBox(height: 80),
         Text(
-          '學習Flutter真好玩',
+          '福岡真好玩',
           style: GoogleFonts.lato(
             color: Colors.white,
             fontSize: 24,

@@ -3,9 +3,15 @@ import 'package:adv_basics/data/questions.dart';
 import 'package:adv_basics/questions_summary.dart';
 
 class ResultScreen extends StatelessWidget {
-  const ResultScreen({super.key, required this.chosenAnswers});
+  const ResultScreen(
+    this.backHome, {
+    super.key,
+    required this.chosenAnswers,
+  });
 
   final List<String> chosenAnswers;
+
+  final void Function() backHome;
 
   // Map: <key:value>
   List<Map<String, Object>> getSummaryData() {
@@ -38,13 +44,23 @@ class ResultScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('分數：$numCorrectQuestions/$numTotalQuestions'),
+              Text('分數：$numCorrectQuestions/$numTotalQuestions',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                  )),
               const SizedBox(height: 30),
               QuestionsSummary(getSummaryData()),
               const SizedBox(height: 30),
-              TextButton(
-                onPressed: () {},
-                child: const Text('重測一遍！'),
+              TextButton.icon(
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: const Color.fromARGB(255, 72, 16, 81),
+                ),
+                icon: const Icon(Icons.keyboard_backspace_sharp),
+                label: const Text('重測一遍'),
+                onPressed: backHome,
               ),
             ],
           ),
